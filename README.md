@@ -69,3 +69,4 @@ CREATE TABLE tarjeta_credito (
 ---
 
 ## 📌 Proyecto Jira
+- https://unbosque-team-software.atlassian.net/jira/software/projects/SCRUM/summary

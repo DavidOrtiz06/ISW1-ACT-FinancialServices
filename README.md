@@ -21,27 +21,38 @@ Aplicación web desarrollada para la asignatura **Ingeniería de Software 1** de
 ## 🗄️ Script de base de datos
 
 ```sql
-CREATE DATABASE IF NOT EXISTS isw_db;
-USE isw_db;
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS financiera;
+USE financiera;
 
-CREATE TABLE cliente (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    numero_identificacion VARCHAR(20) NOT NULL UNIQUE,
-    nombre_completo VARCHAR(100) NOT NULL,
-    correo_electronico VARCHAR(100) NOT NULL UNIQUE
+-- =========================
+-- TABLA TARJETAS
+-- =========================
+CREATE TABLE tarjetas (
+    ID_TARJETA VARCHAR(50) PRIMARY KEY,
+    NUM_TARJETA VARCHAR(20) NOT NULL UNIQUE,
+    FECHA_VENCIMIENTO VARCHAR(7) NOT NULL,
+    FRANQUICIA_TARJETA VARCHAR(20),
+    ESTADO_TARJETA VARCHAR(20),
+    CUPO_TOTAL INT,
+    CUPO_DISPONIBLE INT,
+    CUPO_UTILIZADO INT
 );
 
-CREATE TABLE tarjeta_credito (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    numero VARCHAR(16) NOT NULL UNIQUE,
-    fecha_vencimiento VARCHAR(7) NOT NULL,
-    franquicia VARCHAR(20) NOT NULL,
-    estado VARCHAR(10) NOT NULL DEFAULT 'ACTIVO',
-    cupo_total DECIMAL(15,2) NOT NULL,
-    cupo_disponible DECIMAL(15,2) NOT NULL,
-    cupo_utilizado DECIMAL(15,2) GENERATED ALWAYS AS (cupo_total - cupo_disponible) STORED,
-    cliente_id BIGINT NOT NULL,
-    CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+-- =========================
+-- TABLA CLIENTES
+-- =========================
+CREATE TABLE clientes (
+    ID_CLIENTE VARCHAR(50) PRIMARY KEY,
+    NUM_IDENTIFICACION VARCHAR(50) NOT NULL,
+    CORREO VARCHAR(100),
+    NOMBRE_COMPLETO VARCHAR(150),
+
+    ID_TARJETA VARCHAR(50),
+
+    CONSTRAINT FK_CLIENTE_TARJETA 
+    FOREIGN KEY (ID_TARJETA)
+    REFERENCES tarjetas(ID_TARJETA)
 );
 ```
 

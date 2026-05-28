@@ -25,7 +25,7 @@ public class Tarjeta implements Serializable {
     private String estado;
 
     @Column(name = "CUPO_TOTAL")
-    private int cupoTotal;
+    private Integer cupoTotal;
 
     @Column(name = "CUPO_DISPONIBLE")
     private int cupoDisponible;
@@ -76,11 +76,11 @@ public class Tarjeta implements Serializable {
         this.estado = estado;
     }
 
-    public int getCupoTotal() {
+    public Integer getCupoTotal() {
         return cupoTotal;
     }
 
-    public void setCupoTotal(int cupoTotal) {
+    public void setCupoTotal(Integer cupoTotal) {
         this.cupoTotal = cupoTotal;
     }
 

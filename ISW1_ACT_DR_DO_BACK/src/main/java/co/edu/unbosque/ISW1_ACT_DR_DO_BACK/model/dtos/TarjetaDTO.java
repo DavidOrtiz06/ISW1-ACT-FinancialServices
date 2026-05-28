@@ -7,7 +7,7 @@ public class TarjetaDTO {
     private String fechaVencimiento;
     private String franquicia;
     private String estado;
-    private int cupoTotal;
+    private Integer cupoTotal;
     private int cupoDisponible;
     private int cupoUtilizado;
 
@@ -54,11 +54,11 @@ public class TarjetaDTO {
         this.estado = estado;
     }
 
-    public int getCupoTotal() {
+    public Integer getCupoTotal() {
         return cupoTotal;
     }
 
-    public void setCupoTotal(int cupoTotal) {
+    public void setCupoTotal(Integer cupoTotal) {
         this.cupoTotal = cupoTotal;
     }
 

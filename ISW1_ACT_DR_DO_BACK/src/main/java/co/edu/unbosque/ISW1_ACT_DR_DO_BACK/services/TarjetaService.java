@@ -32,4 +32,10 @@ public class TarjetaService {
     public TarjetaDTO registrarTarjeta(TarjetaDTO tarjeta) {
         return modelMapper.map(tarjetaRepository.save(modelMapper.map(tarjeta, Tarjeta.class)), TarjetaDTO.class);
     }
+
+    public TarjetaService actualizarTarjeta(String id, Integer cupoTarjeta) {
+        Tarjeta tarjeta = tarjetaRepository.findById(id).get();
+        tarjeta.setCupoTotal(cupoTarjeta);
+        return modelMapper.map(tarjetaRepository.save(tarjeta), TarjetaService.class);
+    }
 }

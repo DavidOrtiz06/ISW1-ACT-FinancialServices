@@ -29,4 +29,10 @@ public class TarjetaController {
         System.out.println("Tarjeta registrada");
         return new ResponseEntity<>(tarjetaService.registrarTarjeta(tarjeta), HttpStatus.CREATED);
     }
+
+    @PutMapping("/tarjetas/{id}/cupo")
+    public ResponseEntity<TarjetaDTO> actualizarCupoTarjeta(@PathVariable String id, @RequestBody TarjetaDTO tarjeta) {
+        System.out.println("Tarjeta actualizada");
+        return new ResponseEntity<>(tarjetaService.actualizarTarjeta(id, tarjeta.getCupoTotal()), HttpStatus.CREATED);
+    }
 }

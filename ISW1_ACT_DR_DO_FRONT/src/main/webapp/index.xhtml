@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+   <title>Tarjetas Registrados</title>
+   <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+   <h:outputScript>
+      function formatCardNumber(input) {
+      let value = input.value.replace(/\D/g, '');
+      value = value.substring(0, 16);
+      let formattedValue = value.replace(/(\d{4})/g, '$1-').trim();
+      if (formattedValue.endsWith('-')) {
+      formattedValue = formattedValue.slice(0, -1);
+      }
+      input.value = formattedValue;
+      }
+   </h:outputScript>
+</h:head>
+
+<h:body class="container mt-4" style="max-width: 96%">
+   <h:form id="formTabla">
+      <div class="card p-4 shadow-lg">
+         <h2 class="text-center mb-4">Listado de Tarjetas</h2>
+
+      <div class="text-start mb-3">
+         <p:commandButton value="Nuevo" actionListener="#{tarjetaBean.crearTarjeta()}"
+                          icon="pi pi-plus-circle" styleClass="ui-button-success"
+                          oncomplete="PF('dlgRegistrarTarjeta').show()" update=":formRegistro"/>
+      </div>
+
+         <p:dataTable var="tarjeta" value="#{tarjetaBean.listarTarjetas()}">
+
+            <p:column headerText="Codigo">
+               <h:outputText value="#{tarjeta.id}"/>
+            </p:column>
+
+            <p:column headerText="Numero Tarjeta">
+               <h:outputText value="#{tarjeta.numTarjeta}"/>
+            </p:column>
+
+            <p:column headerText="Fecha de Vencimiento">
+               <h:outputText value="#{tarjeta.fechaVencimiento}"/>
+            </p:column>
+
+            <p:column headerText="Franquicia">
+               <h:outputText value="#{tarjeta.franquicia}"/>
+            </p:column>
+
+            <p:column headerText="Estado">
+               <h:outputText value="#{tarjeta.estado}"/>
+            </p:column>
+
+            <p:column headerText="Cupo Total">
+               <h:outputText value="#{tarjeta.cupoTotal}">
+                  <f:convertNumber type="currency" currencySymbol="$"/>
+               </h:outputText>
+            </p:column>
+
+            <p:column headerText="Cupo Disponible">
+               <h:outputText value="#{tarjeta.cupoDisponible}">
+                  <f:convertNumber type="currency" currencySymbol="$"/>
+               </h:outputText>
+            </p:column>
+
+            <p:column headerText="Cupo Utilizado">
+               <h:outputText value="#{tarjeta.cupoUtilizado}">
+                  <f:convertNumber type="currency" currencySymbol="$"/>
+               </h:outputText>
+            </p:column>
+
+            <p:column headerText="Eliminar">
+               <p:commandButton action="#{tarjetaBean.cambiarEstadoTarjeta(tarjeta)}"
+                                update=":formTabla" icon="pi pi-eraser" styleClass="ui-button-danger"/>
+            </p:column>
+
+            <p:column headerText="Modificar">
+               <p:commandButton actionListener="#{tarjetaBean.setTarjetaDto(tarjeta)}"
+                                icon="pi pi-pencil" styleClass="ui-button-warning"
+                                oncomplete="PF('dlgActualizarTarjeta').show()" update=":formActualizar"/>
+            </p:column>
+         </p:dataTable>
+      </div>
+   </h:form>
+
+   <h:form id="formRegistro">
+      <p:dialog header="Editar Producto" widgetVar="dlgRegistrarTarjeta" modal="true" resizable="false" width="500">
+         <p:panelGrid columns="2" style="width:100%;">
+
+            <h:outputLabel for="numTarjeta" value="Número tarjeta:"/>
+            <p:inputText id="numTarjeta" value="#{tarjetaBean.tarjetaDto.numTarjeta}" required="true"
+                         maxlength="19" oninput="formatCardNumber(this)"/>
+
+            <h:outputLabel for="fechaVencimiento" value="Fecha de Vencimiento:"/>
+            <p:inputMask id="fechaVencimiento" value="#{tarjetaBean.tarjetaDto.fechaVencimiento}" required="true" mask="99/9999"/>
+
+            <h:outputLabel for="cupoT" value="Cupo Total:"/>
+            <p:inputText id="cupoT" value="#{tarjetaBean.tarjetaDto.cupoTotal}" required="true">
+               <p:keyFilter mask="num"/>
+            </p:inputText>
+
+            <h:outputLabel for="cupoDisponible" value="Cupo Disponible:"/>
+            <p:inputText id="cupoDisponible" value="#{tarjetaBean.tarjetaDto.cupoDisponible}" required="true">
+               <p:keyFilter mask="num"/>
+            </p:inputText>
+         </p:panelGrid>
+
+         <f:facet name="footer">
+            <p:commandButton value="Guardar" action="#{tarjetaBean.registrarTarjeta()}"
+                             icon="pi pi-save" styleClass="ui-button-success"
+                             update=":formRegistro, :formTabla" oncomplete="if (!args.validationFailed) PF('dlgRegistrarTarjeta').hide()"/>
+            <p:commandButton value="Cancelar" onclick="PF('dlgRegistrarTarjeta').hide()" type="button"
+                             icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+         </f:facet>
+      </p:dialog>
+   </h:form>
+
+   <h:form id="formActualizar">
+      <p:dialog header="Actualizar Tarjeta" widgetVar="dlgActualizarTarjeta" modal="true" resizable="false" width="500">
+         <p:panelGrid columns="2" style="width:100%;">
+            <h:outputLabel for="cupoTotal" value="Cupo Total:"/>
+            <p:inputText id="cupoTotal" value="#{tarjetaBean.tarjetaDto.cupoTotal}" required="true"/>
+         </p:panelGrid>
+
+         <f:facet name="footer">
+            <p:commandButton value="Actualizar" action="#{tarjetaBean.actualizarTarjeta()}"
+                             icon="pi pi-upload" styleClass="ui-button-success"
+                             update=":formActualizar, :formTabla" oncomplete="PF('dlgActualizarTarjeta').hide()"/>
+            <p:commandButton value="Cancelar" onclick="PF('dlgActualizarTarjeta').hide()" type="button"
+                             icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+         </f:facet>
+      </p:dialog>
+   </h:form>
+</h:body>
+</html>

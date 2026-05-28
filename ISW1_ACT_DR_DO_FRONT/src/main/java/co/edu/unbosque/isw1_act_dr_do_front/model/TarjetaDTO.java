@@ -1,0 +1,94 @@
+package co.edu.unbosque.isw1_act_dr_do_front.model;
+
+public class TarjetaDTO {
+
+    private String id;
+    private String numTarjeta;
+    private String fechaVencimiento;
+    private String franquicia;
+    private String estado;
+    private Integer cupoTotal;
+    private int cupoDisponible;
+    private int cupoUtilizado;
+
+    public TarjetaDTO() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNumTarjeta() {
+        return numTarjeta;
+    }
+
+    public void setNumTarjeta(String numTarjeta) {
+        this.numTarjeta = numTarjeta;
+    }
+
+    public String getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(String fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public String getFranquicia() {
+        return franquicia;
+    }
+
+    public void setFranquicia(String franquicia) {
+        this.franquicia = franquicia;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Integer getCupoTotal() {
+        return cupoTotal;
+    }
+
+    public void setCupoTotal(Integer cupoTotal) {
+        this.cupoTotal = cupoTotal;
+    }
+
+    public int getCupoDisponible() {
+        return cupoDisponible;
+    }
+
+    public void setCupoDisponible(int cupoDisponible) {
+        this.cupoDisponible = cupoDisponible;
+    }
+
+    public int getCupoUtilizado() {
+        return cupoUtilizado;
+    }
+
+    public void setCupoUtilizado(int cupoUtilizado) {
+        this.cupoUtilizado = cupoUtilizado;
+    }
+
+    @Override
+    public String toString() {
+        return "TarjetaDTO{" +
+                "id=" + id +
+                ", numTarjeta='" + numTarjeta + '\'' +
+                ", fechaVencimiento=" + fechaVencimiento +
+                ", franquicia='" + franquicia + '\'' +
+                ", estado='" + estado + '\'' +
+                ", cupoTotal=" + cupoTotal +
+                ", cupoDisponible=" + cupoDisponible +
+                ", cupoUtilizado=" + cupoUtilizado +
+                '}';
+    }
+}
